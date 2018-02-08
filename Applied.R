@@ -1,36 +1,31 @@
 library(foreign)
 
-datademo <- read.spss("~/GitHub/Applied/2002 1 Demography.sav", to.data.frame=TRUE)
-datademo <- datademo[c(1,2,4)] 
-names(datademo)
-
-datahouse <- read.spss("~/GitHub/Applied/2002 2 Housing and durables.sav", to.data.frame=TRUE)
-datahouse <- datahouse[c(1,2,5,6,7,43,23,59)]
-names(datahouse)
-
-
-
-dataincome <- read.spss("~/GitHub/Applied/2002 IncomeConsumption.sav", to.data.frame=TRUE)
-dataincome <- dataincome[c(1,2,93)]
-names(dataincome)
-
-View(datademo)
-
-dim(table)
-
-data <- merge(datademo,datahouse,by.x = c("mesto","rbd") , by.y = c("mesto","rbd"))
-data <- merge(data,dataincome,by.x=c("mesto","rbd") , by.y = c("mesto","rbd"))
-
-
-doublon <- which(duplicated2(data))
-table<- data[-doublon]
-View(table)
-table <- unique(data)
-
-write.csv2(table, file = "table.csv")
-
+table <- read.csv(file=file.choose(),sep=";")
+head(table)
 attach(table)
+summary(table)
+na.omit(table$s14_4)
+na.omit(table)
+names(table) <- c("x","DistCode","SerialNumb","HousMembers","YearBuilt","NumbRooms","FloorSpace","Conso","tableYN","TypeCook","income")
 
-lm<-lm(s14_4 ~ brojclan+s2+s3+s4+s14_4+s9_1+s171+income)
+table$conso <- table$conso + 1
+table$conso <- log(table$conso)
 
-summary(lm)
+#  X
+#  mesto	DistCode
+#  rdb	SerialNumb
+#  brojclan	HousMembers
+#  s2	YearBuilt
+#  s3	NumbRooms
+#  s4	FloorSpace
+#  s14_4	Conso
+#  s9_1	tableY/N
+#  
+#  income	income
+
+
+table$YearBuilt <- table$YearBuilt - 1800
+summary(table)
+
+
+LM1 <- lm()
