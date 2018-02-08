@@ -9,3 +9,4 @@ attach(table)
 
 modelLog <- lm(Lconso ~ income + HousMembers + NumbRooms + FloorSpace + ElecYN + ElecCookYN )
 summary(modelLog)
+
