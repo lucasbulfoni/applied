@@ -24,8 +24,4 @@ table$conso <- log(table$conso)
 #  income	income
 
 
-table$YearBuilt <- table$YearBuilt - 1800
-summary(table)
-
-
 LM1 <- lm()
