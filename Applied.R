@@ -36,7 +36,7 @@ modelLog4 <- lm(Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 
 summary(modelLog4)
 
 
-modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc | Age)
+modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers + Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
 summary(modelIV)
 
 
