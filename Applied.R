@@ -2,6 +2,8 @@ library(readxl)
 library(sandwich)
 library(lmtest)
 library(AER)
+library(systemfit)
+library(tidyverse)
 table <- read_excel("~/GitHub/Applied/table.xlsx")
 table <- read_excel("C:/Users/Dimitri/Dropbox/[Cours]/Applied/R/applied/table.xlsx")
 
@@ -11,6 +13,13 @@ attach(table)
 
 "HousMembers + Age +	NumbRooms +	FloorSpace + ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income"
 
+
+#deal with missing observations
+table %>% summarise_all(.funs = funs(sum(is.na(.)))) %>% gather(key = "feature", value = "missing.observations") %>% filter(missing.observations > 0)
+
+remove.vars <- table %>% summarise_all(.funs = funs(sum(is.na(.)))) %>% gather(key = "feature", value = "missing.observations") %>% filter(missing.observations > 100) %>% select(feature) %>% unlist
+
+table <- table %>% select(- one_of(remove.vars))
 
 ## OLS 
 
@@ -32,12 +41,39 @@ logInc <- log(income)
 modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc)
 summary(modelLog3)
 
-modelLog4 <- lm(Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ FrigoFreezer +	Aspirateur +	TV +	VideoRecord +	CD +	logInc)
+modelLog4 <- (Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ FrigoFreezer +	Aspirateur +	TV +	VideoRecord +	CD +	logInc)
 summary(modelLog4)
+modelLog4bis <- (logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ FrigoFreezer +	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
+summary(modelLog4bis)
 
 
-modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers + Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
+# de la merde
+system <- list(modelLog4bis,modelLog4)
+instrument <- ~ HousMembers +   Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age
+fitols <- systemfit(system,method="W2SLS",inst = instrument)
+summary(fitols)
+modelLog4
+print(fitols)
+
+
+
+modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers +   Age +	NumbRooms +	FloorSpace  +	ElecYN +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ FrigoFreezer +	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
 summary(modelIV)
+
+
+?systemfit
+
+
+
+
+## ssc instal sem 
+## look test for multi
+
+
+
+
+
+
 
 
 betaIncomeOLS <- coefficients(modelLog3)[1]
