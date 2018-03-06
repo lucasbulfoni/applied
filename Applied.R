@@ -13,7 +13,7 @@ attach(table)
 
 "HousMembers + Age +	NumbRooms +	FloorSpace + 	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income"
 
-
+dim(table)
 View(table)
 #deal with missing observations
 
@@ -40,10 +40,11 @@ logInc <- log(income)
 modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc)
 summary(modelLog3)
 
-modelLog4 <- (Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	logInc)
+modelLog4 <- lm(Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	logInc)
 summary(modelLog4)
-modelLog4bis <- (logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
+modelLog4bis <- lm(logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
 summary(modelLog4bis)
+plot(fitted(modelLog4),residuals(modelLog4))
 
 
 # de la merde
