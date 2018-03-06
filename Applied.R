@@ -1,9 +1,48 @@
 library(readxl)
+library(foreign)
 library(sandwich)
 library(lmtest)
 library(AER)
 library(systemfit)
 library(tidyverse)
+
+datademo <- read.spss("~/GitHub/Applied/2002 1 Demography.sav", to.data.frame=TRUE)
+datademo <- datademo[c(1,2,4)] 
+names(datademo)
+
+datahouse <- read.spss("~/GitHub/Applied/2002 2 Housing and durables.sav", to.data.frame=TRUE)
+datahouse <- datahouse[c(1,2,5,6,7,43,23,59,81,85,89,93,97,101,105,109,121,141)]
+names(datahouse)
+
+
+
+dataincome <- read.spss("~/GitHub/Applied/2002 IncomeConsumption.sav", to.data.frame=TRUE)
+dataincome <- dataincome[c(1,2,93)]
+names(dataincome)
+
+dataLabor <- read.spss("~/GitHub/Applied/2002 7 Labor activity.sav", to.data.frame=TRUE)
+dataLabor <- dataLabor[c(1,2,8,56)]
+
+names(dataLabor)
+
+
+
+data <- merge(datademo,datahouse,by.x = c("mesto","rbd") , by.y = c("mesto","rbd"))
+data <- merge(data,dataincome,by.x=c("mesto","rbd") , by.y = c("mesto","rbd"))
+data <- merge(data,dataLabor,by.x=c("mesto","rbd") , by.y = c("mesto","rbd"))
+View(data)
+data <- na.omit(data)
+sum(is.na(data))
+#doublon <- which(duplicated2(data))
+#table<- data[-doublon]
+#View(table)
+table2 <- unique(data)
+View(table2)
+write.csv2(table2, file = "table.csv")
+
+
+
+
 table <- read_excel("~/GitHub/Applied/table.xlsx")
 table <- read_excel("C:/Users/Dimitri/Dropbox/[Cours]/Applied/R/applied/table.xlsx")
 
@@ -11,7 +50,7 @@ View(table)
 
 attach(table)
 
-"HousMembers + Age +	NumbRooms +	FloorSpace + 	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income"
+"HousMembers + Age +	NumbRooms +	FloorSpace + 	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income"
 
 dim(table)
 View(table)
@@ -19,45 +58,45 @@ View(table)
 
 table <- na.omit(table)
 sum(is.na(table))
-
+names(table)
 ## OLS 
 
 Lconso <- log(Conso)
-modelLog <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
+modelLog <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
 summary(modelLog)
 
 
-model <- lm(Conso  ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
+model <- lm(Conso  ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
 summary(model)
 
 FS2 <- FloorSpace^2
 
-modelLog2 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace + FS2 +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
+modelLog2 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace + FS2 +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
 summary(modelLog2)
 
 logInc <- log(income)
 
-modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc)
+modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc)
 summary(modelLog3)
 
-modelLog4 <- lm(Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	logInc)
+modelLog4 <- lm(Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	logInc)
 summary(modelLog4)
-modelLog4bis <- lm(logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
+modelLog4bis <- lm(logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
 summary(modelLog4bis)
 plot(fitted(modelLog4),residuals(modelLog4))
 
 
 # de la merde
 system <- list(modelLog4bis,modelLog4)
-instrument <- ~ HousMembers +   Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age
-fitols <- systemfit(system,method="W2SLS",inst = instrument)
+instrument <- ~ Staut + Urban 
+fitols <- systemfit(modelLog4,method="2SLS",inst = instrument)
 summary(fitols)
-modelLog4
+summary(modelLog4)
 print(fitols)
 
 
 
-modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers +   Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	ElecCookYN + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
+modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers +   Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
 summary(modelIV)
 
 
@@ -105,8 +144,8 @@ SampleB<- subset (table, DistCode>=100)
 summary(sampleA)
 summary(SampleB)
 
-lmA <- lm (Lconso ~ FloorSpace+NumbRooms+income+ElecYN+ElecCookYN+Age+TableYN+HousMembers , data=sampleA)
+lmA <- lm (Lconso ~ FloorSpace+NumbRooms+income+ElecYN+Heating+Age+TableYN+HousMembers , data=sampleA)
 summary(lmA)
 
-lmB <- lm (Lconso ~ FloorSpace+NumbRooms+income+ElecYN+ElecCookYN+Age+TableYN+HousMembers , data=SampleB)
+lmB <- lm (Lconso ~ FloorSpace+NumbRooms+income+ElecYN+Heating+Age+TableYN+HousMembers , data=SampleB)
 summary(lmB)
