@@ -57,7 +57,7 @@ FS2 <- FloorSpace^2
 logInc <- log(income)
 
 
-modelLog1 <- lm(Lconso ~ 	logInc + HousMembers +	NumbRooms +	FloorSpace +	Heating  )
+modelLog1 <- lm(Lconso ~ 	logInc + HousMembers +	NumbRooms +	FloorSpace +	Heating + Age + Frigo)
 summary(modelLog1)
 
 modellog2 <- lm(Lconso ~ logInc + HousMembers + NumbRooms + FloorSpace + Heating + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Age + Frigo)
@@ -73,7 +73,7 @@ summary(modelIV)
 
 ##2SLS
 
-lm2sls_1 <- lm(logInc ~ Statut + Urban + TV + PC + LaveVaisselle + LaveLinge)
+lm2sls_1 <- lm(logInc ~ Statut + Urban + TV + PC + LaveLinge + LaveVaisselle)
 summary(lm2sls_1)
 logIncfit<- fitted(lm2sls_1)         
 
@@ -93,12 +93,15 @@ abs(hausman)
 
 # Sargan test
 res2sls <- residuals(lm2sls_2)
-Sargan <- lm(res2sls ~ HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + Statut + Urban + TV + PC + LaveVaisselle + LaveLinge)
+Sargan <- lm(res2sls ~ HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + Statut + Urban + TV + PC + LaveLinge + LaveVaisselle )
 summary(Sargan)
-
+cuicui <-linearHypothesis(Sargan,c("Statut=0", "Urban=0","TV=0","PC=0","LaveLinge=0","LaveVaisselle"))
+summary(cuicui)
 k <-6
-J2 <- k*15.76
+J2 <- k*46.66
 J2
+pvalue2  <-  1 - pchisq(J2, 5)
+pvalue2
 
 # Goldfeld-Quant
 gqtest(modelLog1)
