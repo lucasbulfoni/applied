@@ -75,7 +75,9 @@ summary(modelIV)
 
 lm2sls_1 <- lm(logInc ~ Statut + Urban + TV + PC + LaveVaisselle + LaveLinge)
 summary(lm2sls_1)
-logIncfit<- fitted(lm2sls_1)
+logIncfit<- fitted(lm2sls_1)         
+
+
 lm2sls_2 <- lm(Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo )
 summary(lm2sls_2)
 
@@ -89,6 +91,20 @@ varIncomeIV <- vcov(lm2sls_2)[2,2]
 hausman <- (betaIncomeOLS - betaIncomeIV )/ sqrt(varIncomeIV - varIncomeOLS)
 abs(hausman)
 
+# Sargan test
+res2sls <- residuals(lm2sls_2)
+Sargan <- lm(res2sls ~ HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + Statut + Urban + TV + PC + LaveVaisselle + LaveLinge)
+summary(Sargan)
+
+## first method
+dim(table)
+n <-5882
+J1 <- n*0.04
+J1
+## second method
+k <-6
+J2 <- k*15.76
+J2
 # Goldfeld-Quant
 gqtest(modelLog1)
 gqtest(modelLog2)
