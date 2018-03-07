@@ -76,17 +76,22 @@ summary(modelLog2)
 
 logInc <- log(income)
 
-modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	TV + PC +	income + FS2)
+modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ income )
 summary(modelLog3)
 
-modelLog4 <- lm(Lconso ~ HousMembers +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	TV + PC +	logInc )
+modelLog4 <- lm(Lconso ~ HousMembers + Age + NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ +	Aspirateur +	logInc )
 summary(modelLog4)
+
 modelLog4bis <- lm(logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
 summary(modelLog4bis)
+
 plot(fitted(modelLog4),residuals(modelLog4))
 
-modelLog5 <- lm(Lconso ~ HousMembers +	NumbRooms +	FloorSpace +	Heating  +	logInc + FS2 )
+modelLog5 <- lm(Lconso ~ HousMembers +	NumbRooms +	FloorSpace +	Heating  +	logInc)
 summary(modelLog5)
+
+modellog6 <- lm(Lconso ~ logInc + HousMembers + NumbRooms + FloorSpace + Heating + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Age + Frigo)
+summary(modellog6)
 # de la merde
 system <- list(modelLog4bis,modelLog4)
 instrument <- ~ Staut + Urban 
@@ -99,13 +104,17 @@ summary(table)
 
 modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers +   Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
 summary(modelIV)
-
-
+modelIV2 <- ivreg(Lconso ~ logInc +  HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo| HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + Statut + Urban + TV + PC + LaveVaisselle + LaveLinge)
+summary(modelIV2)
 ?systemfit
 
+##2SLS
 
-
-
+lm2sls_1 <- lm(logInc ~ Statut + Urban + TV + PC + LaveVaisselle + LaveLinge)
+summary(lm2sls_1)
+logIncfit<- fitted(lm2sls_1)
+lm2sls_2 <- lm(Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo )
+summary(lm2sls_2)
 ## ssc instal sem 
 ## look test for multi
 
@@ -116,11 +125,13 @@ summary(modelIV)
 
 
 
-betaIncomeOLS <- coefficients(modelLog3)[1]
-varIncomeOLS <- vcov(modelLog3)[1]
-betaIncomeIV <- coef()[]
-varIncomeIV <- vcov()[1]
+betaIncomeOLS <- coefficients(modellog6)[1]
+varIncomeOLS <- vcov(modellog6)[1]
+betaIncomeIV <- coef(lm2sls_2)[]
+varIncomeIV <- vcov(lm2sls_2)[1]
 
+hausman <- (betaIncomeOLS - betaIncomeIV )/ sqrt(varIncomeIV - varIncomeOLS)
+hausman
 l <- gqtest(modelLog4)
 l
 
