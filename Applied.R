@@ -50,7 +50,7 @@ View(table)
 
 attach(table)
 
-"HousMembers + Age +	NumbRooms +	FloorSpace + 	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income"
+"HousMembers + Age +	NumbRooms +	FloorSpace + 	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income"
 
 dim(table)
 View(table)
@@ -62,30 +62,31 @@ names(table)
 ## OLS 
 
 Lconso <- log(Conso)
-modelLog <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
+modelLog <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
 summary(modelLog)
 
 
-model <- lm(Conso  ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
+model <- lm(Conso  ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	TV + PC +	income)
 summary(model)
 
 FS2 <- FloorSpace^2
 
-modelLog2 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace + FS2 +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	income)
+modelLog2 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	TV + PC +	income + FS2)
 summary(modelLog2)
 
 logInc <- log(income)
 
-modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc)
+modelLog3 <- lm(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	TV + PC +	income + FS2)
 summary(modelLog3)
 
-modelLog4 <- lm(Lconso ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	logInc)
+modelLog4 <- lm(Lconso ~ HousMembers +	NumbRooms +	FloorSpace +	Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	TV + PC +	logInc )
 summary(modelLog4)
-modelLog4bis <- lm(logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
+modelLog4bis <- lm(logInc ~ HousMembers + 	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Frigo	+ Freezer	+ 	Aspirateur +	TV +	VideoRecord +	CD +	Lconso)
 summary(modelLog4bis)
 plot(fitted(modelLog4),residuals(modelLog4))
 
-
+modelLog5 <- lm(Lconso ~ HousMembers +	NumbRooms +	FloorSpace +	Heating  +	logInc + FS2 )
+summary(modelLog5)
 # de la merde
 system <- list(modelLog4bis,modelLog4)
 instrument <- ~ Staut + Urban 
@@ -94,9 +95,9 @@ summary(fitols)
 summary(modelLog4)
 print(fitols)
 
+summary(table)
 
-
-modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers +   Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + Poele	+ LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
+modelIV <- ivreg(Lconso ~ HousMembers + Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc |HousMembers +   Age +	NumbRooms +	FloorSpace  +		Loc2 +	Loc3 +	Loc4 +	Loc5 +	Loc6 +	Heating + LaveLinge	+ Clim	+ LaveVaisselle	+ Frigo	+ Freezer	+ 	Micronde +	Aspirateur +	FerRepasser +	Antenne +	TV +	VideoRecord +	VideoCamera +	CD +	Radio +	PC +	logInc +  Age)
 summary(modelIV)
 
 
