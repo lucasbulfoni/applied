@@ -75,7 +75,7 @@ FS2 <- FloorSpace^2
 logInc <- log(income)
 
 
-modelLog1 <- lm(Lconso ~ 	logInc + HousMembers +	NumbRooms +	FloorSpace +	Heating + Age + Frigo)
+modelLog1 <- lm(Lconso ~ 	logInc + HousMembers +	NumbRooms +	FloorSpace +	Heating + Age + Frigo + LaveLinge)
 summary(modelLog1)
 
 modellog2 <- lm(Lconso ~ logInc + HousMembers  + FloorSpace + Heating + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Age + Frigo + LaveLinge)
