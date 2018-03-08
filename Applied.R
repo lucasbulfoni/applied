@@ -78,26 +78,30 @@ logInc <- log(income)
 modelLog1 <- lm(Lconso ~ 	logInc + HousMembers +	NumbRooms +	FloorSpace +	Heating + Age + Frigo)
 summary(modelLog1)
 
-modellog2 <- lm(Lconso ~ logInc + HousMembers + NumbRooms + FloorSpace + Heating + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Age + Frigo)
+modellog2 <- lm(Lconso ~ logInc + HousMembers  + FloorSpace + Heating + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Age + Frigo + LaveLinge)
 summary(modellog2)
 
+
+ 
 
 # IV
 
 
-modelIV <- ivreg(Lconso ~ logInc +  HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo| HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + Statut + Urban + TV + PC + LaveVaisselle + LaveLinge)
+modelIV <- ivreg(Lconso ~ logInc +  HousMembers + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 | HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 )
 summary(modelIV)
 
 
 ##2SLS
 
-lm2sls_1 <- lm(logInc ~ Statut + Urban + TV + PC + LaveLinge + LaveVaisselle)
+lm2sls_1 <- lm(logInc ~ HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo +Statut + Urban + LaveLinge + PC)
 summary(lm2sls_1)
 logIncfit<- fitted(lm2sls_1)         
 
 
-lm2sls_2 <- lm(Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo )
+lm2sls_2 <- lm(Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo +  LaveLinge)
 summary(lm2sls_2)
+
+
 
 # Hausman Test
 
