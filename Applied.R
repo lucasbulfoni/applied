@@ -50,6 +50,24 @@ dim(table)
 summary(table)
 
 
+# Outlier 
+"create a table with cooks distance"
+infl = lm.influence(modellog2, do.coef = FALSE)
+cd <- cooks.distance(modellog2, infl = lm.influence(modellog2, do.coef = FALSE),
+                     res = weighted.residuals(modellog2),
+                     sd = sqrt(deviance(modellog2)/df.residual(modellog2)),
+                     hat = infl$hat)
+
+write.csv2(cd, file = "cook.csv")
+
+seuil <- 7.068e-04
+"4 times the mean of distcook"
+table <- subset(table, distcook< seuil)
+"delete the outlier"
+
+
+
+
 ## OLS 
 
 Lconso <- log(Conso)
@@ -123,3 +141,5 @@ summary(lmA)
 
 lmB <- lm (Lconso ~ FloorSpace+NumbRooms+income+ElecYN+Heating+Age+TableYN+HousMembers , data=SampleB)
 summary(lmB)
+
+
