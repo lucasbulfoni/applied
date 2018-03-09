@@ -106,7 +106,7 @@ modelIV <- ivreg(Lconso ~ logInc +  HousMembers + FloorSpace + Heating
                  | HousMembers + NumbRooms + FloorSpace + Heating + Age 
                  + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + LaveLinge + Urban + Statut + PC)
 
-summary(modelIV, vcoc=sandwich, diagnostics=TRUE)
+summary(modelIV, vcoc=sandwich, diagnostics=TRUE) # give Sargan test
 
 
 # Hausman Test

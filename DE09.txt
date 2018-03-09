@@ -126,3 +126,67 @@ Residual standard error: 0.6217 on 5700 degrees of freedom
 Multiple R-squared:  0.3587,	Adjusted R-squared:  0.3572 
 F-statistic: 245.2 on 13 and 5700 DF,  p-value: < 2.2e-16
 
+
+Call:
+ivreg(formula = Lconso ~ logInc + HousMembers + FloorSpace + 
+    Heating + NumbRooms + Age + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + 
+    Frigo + LaveLinge | HousMembers + NumbRooms + FloorSpace + 
+    Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + Frigo + 
+    LaveLinge + Urban + Statut + PC)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.28189 -0.40352 -0.02345  0.39666  2.33154 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.7670081  0.7776096   4.844 1.30e-06 ***
+logInc       0.2044626  0.0854840   2.392   0.0168 *  
+HousMembers  0.0847538  0.0138077   6.138 8.91e-10 ***
+FloorSpace   0.0018705  0.0004373   4.277 1.92e-05 ***
+Heating      0.5603028  0.0250753  22.345  < 2e-16 ***
+NumbRooms    0.0108242  0.0108704   0.996   0.3194    
+Age         -0.0017815  0.0004086  -4.360 1.33e-05 ***
+Loc2         0.0277904  0.0318867   0.872   0.3835    
+Loc3        -0.0289304  0.0320715  -0.902   0.3671    
+Loc4        -0.1895243  0.0312472  -6.065 1.40e-09 ***
+Loc5        -0.2300607  0.0316588  -7.267 4.17e-13 ***
+Loc6        -0.1910960  0.0310541  -6.154 8.09e-10 ***
+Frigo        0.0984058  0.0215641   4.563 5.14e-06 ***
+LaveLinge    0.4740371  0.0282205  16.798  < 2e-16 ***
+
+Diagnostic tests:
+                  df1  df2 statistic p-value    
+Weak instruments    3 5698    61.650  <2e-16 ***
+Wu-Hausman          1 5699     3.815  0.0508 .  
+Sargan              2   NA   146.615  <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6279 on 5700 degrees of freedom
+Multiple R-Squared: 0.3457,	Adjusted R-squared: 0.3442 
+Wald test: 240.4 on 13 and 5700 DF,  p-value: < 2.2e-16 
+
+  logInc 
+1.952405 
+
+	Goldfeld-Quandt test
+
+data:  modelLog1
+GQ = 1.0831, df1 = 2848, df2 = 2848, p-value = 0.01659
+alternative hypothesis: variance increases from segment 1 to 2
+
+
+	Goldfeld-Quandt test
+
+data:  modellog2
+GQ = 1.0878, df1 = 2843, df2 = 2843, p-value = 0.01248
+alternative hypothesis: variance increases from segment 1 to 2
+
+
+	Goldfeld-Quandt test
+
+data:  lm2sls_2
+GQ = 1.0875, df1 = 2843, df2 = 2843, p-value = 0.01266
+alternative hypothesis: variance increases from segment 1 to 2
+
