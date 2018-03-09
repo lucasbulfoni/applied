@@ -1,5 +1,5 @@
 # Package
-load.libraries <- c('tidyverse', 'readxl', 'foreign','sandwich', 'lmtest','AER', 'systemfit')
+load.libraries <- c('tidyverse', 'readxl', 'foreign','sandwich', 'lmtest','AER')
 install.lib <- load.libraries[!load.libraries %in% installed.packages()]
 for(libs in install.lib) install.packages(libs, dependencies = TRUE, repos = "https://cloud.r-project.org")
 sapply(load.libraries, require, character = TRUE)
@@ -37,7 +37,6 @@ View(table2)
 write.csv2(table2, file = "table.csv")
 
 
-
 "Differente ways to download the table"
 table <- read_excel("~/GitHub/Applied/table.xlsx")
 table <- read_excel("C:/Users/Dimitri/Dropbox/[Cours]/Applied/R/applied/table.xlsx")
@@ -45,7 +44,6 @@ table <- read_excel(file = file.choose())
 dim(table)
 "Information about data base"
 View(table)
-attach(table)
 dim(table)
 summary(table)
 
@@ -53,22 +51,25 @@ summary(table)
 # Outlier 
 "create a table with cooks distance"
 infl = lm.influence(modellog2, do.coef = FALSE)
-cd <- cooks.distance(modellog2, infl = lm.influence(modellog2, do.coef = FALSE),
+cd <- cooks.distance(modellog2, infl = infl,
                      res = weighted.residuals(modellog2),
                      sd = sqrt(deviance(modellog2)/df.residual(modellog2)),
                      hat = infl$hat)
 
 write.csv2(cd, file = "cook.csv")
 
+"taking a ceilling value egual to 4 times the mean of distcook"
 seuil <- 7.068e-04
-"4 times the mean of distcook"
+"Take a subset without the outliers"
 table <- subset(table, distcook< seuil)
-"delete the outlier"
+
 
 dim(table)
-
 attach(table)
 sink("DE09.txt")
+
+
+
 ## OLS 
 
 Lconso <- log(Conso)
@@ -83,8 +84,6 @@ modellog2 <- lm(Lconso ~ logInc + HousMembers + NumbRooms + FloorSpace + Heating
 summary(modellog2)
 
 
- 
-
 
 ##2SLS
 
@@ -98,7 +97,7 @@ logIncfit<- fitted(lm2sls_1)
 lm2sls_2 <- lm(Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace
                + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo +  LaveLinge)
 summary(lm2sls_2)
-sink()
+
 # IV
 
 
@@ -107,8 +106,7 @@ modelIV <- ivreg(Lconso ~ logInc +  HousMembers + FloorSpace + Heating
                  | HousMembers + NumbRooms + FloorSpace + Heating + Age 
                  + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + LaveLinge + Urban + Statut + PC)
 
-summary(modelIV)
-
+summary(modelIV, vcoc=sandwich, diagnostics=TRUE)
 
 
 # Hausman Test
@@ -121,17 +119,7 @@ varIncomeIV <- vcov(lm2sls_2)[2,2]
 hausman <- (betaIncomeOLS - betaIncomeIV )/ sqrt(varIncomeIV - varIncomeOLS)
 abs(hausman)
 
-# Sargan test
-res2sls <- residuals(lm2sls_2)
-Sargan <- lm(res2sls ~ HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + Statut + Urban + TV + PC + LaveLinge + LaveVaisselle )
-summary(Sargan)
-cuicui <-linearHypothesis(Sargan,c("Statut=0", "Urban=0","TV=0","PC=0","LaveLinge=0","LaveVaisselle"))
-summary(cuicui)
-k <-6
-J2 <- k*46.66
-J2
-pvalue2  <-  1 - pchisq(J2, 5)
-pvalue2
+
 
 # Goldfeld-Quant
 gqtest(modelLog1)
@@ -139,19 +127,7 @@ gqtest(modellog2)
 gqtest(lm2sls_2)
 
 
+sink()
 
-
-## 2 samples
-sampleA<-subset(table, DistCode<100)
-SampleB<- subset (table, DistCode>=100)
-
-summary(sampleA)
-summary(SampleB)
-
-lmA <- lm (Lconso ~ FloorSpace+NumbRooms+income+ElecYN+Heating+Age+TableYN+HousMembers , data=sampleA)
-summary(lmA)
-
-lmB <- lm (Lconso ~ FloorSpace+NumbRooms+income+ElecYN+Heating+Age+TableYN+HousMembers , data=SampleB)
-summary(lmB)
 
 
