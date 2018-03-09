@@ -1,0 +1,241 @@
+
+Call:
+lm(formula = Lconso ~ logInc + HousMembers + NumbRooms + FloorSpace + 
+    Heating + Age + Frigo + LaveLinge)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.34474 -0.40835 -0.01036  0.39700  2.44768 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  5.0674494  0.1414658  35.821  < 2e-16 ***
+logInc       0.0452049  0.0151405   2.986 0.002841 ** 
+HousMembers  0.1025420  0.0060915  16.834  < 2e-16 ***
+NumbRooms    0.0017380  0.0103240   0.168 0.866315    
+FloorSpace   0.0027348  0.0003905   7.004 2.78e-12 ***
+Heating      0.6144502  0.0222252  27.646  < 2e-16 ***
+Age         -0.0011665  0.0004043  -2.885 0.003926 ** 
+Frigo        0.0770185  0.0214484   3.591 0.000332 ***
+LaveLinge    0.5573337  0.0218134  25.550  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6291 on 5705 degrees of freedom
+Multiple R-squared:  0.3427,	Adjusted R-squared:  0.3418 
+F-statistic: 371.8 on 8 and 5705 DF,  p-value: < 2.2e-16
+
+
+Call:
+lm(formula = Lconso ~ logInc + HousMembers + NumbRooms + FloorSpace + 
+    Heating + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + Age + Frigo + 
+    LaveLinge)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.29672 -0.40096 -0.02224  0.39608  2.30811 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  5.2441087  0.1424518  36.813  < 2e-16 ***
+logInc       0.0418461  0.0150033   2.789   0.0053 ** 
+HousMembers  0.1086876  0.0060483  17.970  < 2e-16 ***
+NumbRooms    0.0167334  0.0103258   1.621   0.1052    
+FloorSpace   0.0022355  0.0003904   5.726 1.08e-08 ***
+Heating      0.5810923  0.0224216  25.917  < 2e-16 ***
+Loc2         0.0175018  0.0311203   0.562   0.5739    
+Loc3        -0.0415189  0.0310846  -1.336   0.1817    
+Loc4        -0.1875784  0.0309140  -6.068 1.38e-09 ***
+Loc5        -0.2442840  0.0304793  -8.015 1.33e-15 ***
+Loc6        -0.2067893  0.0296698  -6.970 3.54e-12 ***
+Age         -0.0018129  0.0004042  -4.485 7.42e-06 ***
+Frigo        0.0973853  0.0213388   4.564 5.13e-06 ***
+LaveLinge    0.5074574  0.0220774  22.985  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6216 on 5700 degrees of freedom
+Multiple R-squared:  0.3589,	Adjusted R-squared:  0.3575 
+F-statistic: 245.5 on 13 and 5700 DF,  p-value: < 2.2e-16
+
+
+Call:
+lm(formula = logInc ~ HousMembers + NumbRooms + FloorSpace + 
+    Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + Frigo + 
+    Statut + Urban + LaveLinge + PC)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-2.9838 -0.3090  0.0177  0.3379  2.3840 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  9.0899958  0.0382205 237.830  < 2e-16 ***
+HousMembers  0.1436691  0.0049171  29.218  < 2e-16 ***
+NumbRooms    0.0314575  0.0090644   3.470 0.000523 ***
+FloorSpace   0.0019607  0.0003387   5.789 7.47e-09 ***
+Heating      0.1187006  0.0196329   6.046 1.58e-09 ***
+Age         -0.0001799  0.0003518  -0.511 0.609162    
+Loc2        -0.0483065  0.0271329  -1.780 0.075070 .  
+Loc3        -0.0716367  0.0272951  -2.625 0.008700 ** 
+Loc4         0.0425974  0.0274010   1.555 0.120098    
+Loc5        -0.0550795  0.0268246  -2.053 0.040087 *  
+Loc6        -0.0729672  0.0261395  -2.791 0.005265 ** 
+Frigo        0.0042175  0.0185623   0.227 0.820269    
+Statut       0.0424044  0.0150945   2.809 0.004982 ** 
+Urban       -0.0817472  0.0166948  -4.897 1.00e-06 ***
+LaveLinge    0.2014715  0.0201252  10.011  < 2e-16 ***
+PC           0.2872848  0.0222301  12.923  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.5401 on 5698 degrees of freedom
+Multiple R-squared:  0.2852,	Adjusted R-squared:  0.2833 
+F-statistic: 151.5 on 15 and 5698 DF,  p-value: < 2.2e-16
+
+
+Call:
+lm(formula = Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace + 
+    Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + Frigo + 
+    LaveLinge)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.36877 -0.40046 -0.01854  0.39612  2.23810 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.7670081  0.7698490   4.893 1.02e-06 ***
+logIncfit    0.2044626  0.0846308   2.416   0.0157 *  
+HousMembers  0.0847538  0.0136699   6.200 6.04e-10 ***
+NumbRooms    0.0108242  0.0107619   1.006   0.3146    
+FloorSpace   0.0018705  0.0004329   4.320 1.58e-05 ***
+Heating      0.5603028  0.0248250  22.570  < 2e-16 ***
+Age         -0.0017815  0.0004046  -4.404 1.08e-05 ***
+Loc2         0.0277904  0.0315685   0.880   0.3787    
+Loc3        -0.0289304  0.0317514  -0.911   0.3623    
+Loc4        -0.1895243  0.0309353  -6.126 9.59e-10 ***
+Loc5        -0.2300607  0.0313428  -7.340 2.43e-13 ***
+Loc6        -0.1910960  0.0307442  -6.216 5.47e-10 ***
+Frigo        0.0984058  0.0213489   4.609 4.13e-06 ***
+LaveLinge    0.4740371  0.0279389  16.967  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6217 on 5700 degrees of freedom
+Multiple R-squared:  0.3587,	Adjusted R-squared:  0.3572 
+F-statistic: 245.2 on 13 and 5700 DF,  p-value: < 2.2e-16
+
+
+Call:
+ivreg(formula = Lconso ~ logInc + HousMembers + FloorSpace + 
+    Heating + NumbRooms + Age + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + 
+    Frigo + LaveLinge | HousMembers + NumbRooms + FloorSpace + 
+    Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + Frigo + 
+    LaveLinge + Urban + Statut + PC)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.28189 -0.40352 -0.02345  0.39666  2.33154 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.7670081  0.7776096   4.844 1.30e-06 ***
+logInc       0.2044626  0.0854840   2.392   0.0168 *  
+HousMembers  0.0847538  0.0138077   6.138 8.91e-10 ***
+FloorSpace   0.0018705  0.0004373   4.277 1.92e-05 ***
+Heating      0.5603028  0.0250753  22.345  < 2e-16 ***
+NumbRooms    0.0108242  0.0108704   0.996   0.3194    
+Age         -0.0017815  0.0004086  -4.360 1.33e-05 ***
+Loc2         0.0277904  0.0318867   0.872   0.3835    
+Loc3        -0.0289304  0.0320715  -0.902   0.3671    
+Loc4        -0.1895243  0.0312472  -6.065 1.40e-09 ***
+Loc5        -0.2300607  0.0316588  -7.267 4.17e-13 ***
+Loc6        -0.1910960  0.0310541  -6.154 8.09e-10 ***
+Frigo        0.0984058  0.0215641   4.563 5.14e-06 ***
+LaveLinge    0.4740371  0.0282205  16.798  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6279 on 5700 degrees of freedom
+Multiple R-Squared: 0.3457,	Adjusted R-squared: 0.3442 
+Wald test: 240.4 on 13 and 5700 DF,  p-value: < 2.2e-16 
+
+  logInc 
+1.952405 
+
+Call:
+lm(formula = res2sls ~ HousMembers + NumbRooms + FloorSpace + 
+    Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 + Loc6 + Frigo + 
+    Statut + Urban + TV + PC + LaveLinge + LaveVaisselle)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.33505 -0.38976 -0.01752  0.38957  2.36035 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.2032079  0.0440160  -4.617 3.98e-06 ***
+HousMembers    0.0026711  0.0056210   0.475  0.63467    
+NumbRooms      0.0154681  0.0103103   1.500  0.13361    
+FloorSpace    -0.0002096  0.0003853  -0.544  0.58654    
+Heating       -0.0430857  0.0223054  -1.932  0.05346 .  
+Age            0.0002580  0.0003992   0.646  0.51814    
+Loc2           0.0330410  0.0308118   1.072  0.28361    
+Loc3           0.0588265  0.0310056   1.897  0.05784 .  
+Loc4           0.0725780  0.0311370   2.331  0.01979 *  
+Loc5           0.0556603  0.0304793   1.826  0.06788 .  
+Loc6           0.0588282  0.0296956   1.981  0.04763 *  
+Frigo         -0.0035309  0.0211692  -0.167  0.86754    
+Statut         0.0614102  0.0171307   3.585  0.00034 ***
+Urban          0.1931329  0.0190221  10.153  < 2e-16 ***
+TV             0.0570619  0.0172572   3.307  0.00095 ***
+PC             0.0071960  0.0257600   0.279  0.77999    
+LaveLinge     -0.1064772  0.0231096  -4.607 4.16e-06 ***
+LaveVaisselle  0.1038061  0.0439597   2.361  0.01824 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.6127 on 5696 degrees of freedom
+Multiple R-squared:  0.02926,	Adjusted R-squared:  0.02636 
+F-statistic:  10.1 on 17 and 5696 DF,  p-value: < 2.2e-16
+
+     Res.Df          RSS             Df      Sum of Sq           F        
+ Min.   :5696   Min.   :2138   Min.   :6   Min.   :64.46   Min.   :28.61  
+ 1st Qu.:5698   1st Qu.:2155   1st Qu.:6   1st Qu.:64.46   1st Qu.:28.61  
+ Median :5699   Median :2171   Median :6   Median :64.46   Median :28.61  
+ Mean   :5699   Mean   :2171   Mean   :6   Mean   :64.46   Mean   :28.61  
+ 3rd Qu.:5700   3rd Qu.:2187   3rd Qu.:6   3rd Qu.:64.46   3rd Qu.:28.61  
+ Max.   :5702   Max.   :2203   Max.   :6   Max.   :64.46   Max.   :28.61  
+                               NA's   :1   NA's   :1       NA's   :1      
+     Pr(>F) 
+ Min.   :0  
+ 1st Qu.:0  
+ Median :0  
+ Mean   :0  
+ 3rd Qu.:0  
+ Max.   :0  
+ NA's   :1  
+[1] 279.96
+[1] 0
+
+	Goldfeld-Quandt test
+
+data:  modelLog1
+GQ = 1.0831, df1 = 2848, df2 = 2848, p-value = 0.01659
+alternative hypothesis: variance increases from segment 1 to 2
+
+
+	Goldfeld-Quandt test
+
+data:  modellog2
+GQ = 1.0878, df1 = 2843, df2 = 2843, p-value = 0.01248
+alternative hypothesis: variance increases from segment 1 to 2
+
+
+	Goldfeld-Quandt test
+
+data:  lm2sls_2
+GQ = 1.0875, df1 = 2843, df2 = 2843, p-value = 0.01266
+alternative hypothesis: variance increases from segment 1 to 2
+

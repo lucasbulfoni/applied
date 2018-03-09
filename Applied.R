@@ -42,7 +42,7 @@ write.csv2(table2, file = "table.csv")
 table <- read_excel("~/GitHub/Applied/table.xlsx")
 table <- read_excel("C:/Users/Dimitri/Dropbox/[Cours]/Applied/R/applied/table.xlsx")
 table <- read_excel(file = file.choose())
-
+dim(table)
 "Information about data base"
 View(table)
 attach(table)
@@ -65,9 +65,10 @@ seuil <- 7.068e-04
 table <- subset(table, distcook< seuil)
 "delete the outlier"
 
+dim(table)
 
-
-
+attach(table)
+sink("DE09.txt")
 ## OLS 
 
 Lconso <- log(Conso)
@@ -78,28 +79,35 @@ logInc <- log(income)
 modelLog1 <- lm(Lconso ~ 	logInc + HousMembers +	NumbRooms +	FloorSpace +	Heating + Age + Frigo + LaveLinge)
 summary(modelLog1)
 
-modellog2 <- lm(Lconso ~ logInc + HousMembers  + FloorSpace + Heating + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Age + Frigo + LaveLinge)
+modellog2 <- lm(Lconso ~ logInc + HousMembers + NumbRooms + FloorSpace + Heating + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Age + Frigo + LaveLinge)
 summary(modellog2)
 
 
  
 
-# IV
-
-
-modelIV <- ivreg(Lconso ~ logInc +  HousMembers + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 | HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 )
-summary(modelIV)
-
 
 ##2SLS
 
-lm2sls_1 <- lm(logInc ~ HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo +Statut + Urban + LaveLinge + PC)
+lm2sls_1 <- lm(logInc ~ HousMembers + NumbRooms + FloorSpace
+               + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6
+               + Frigo +Statut + Urban + LaveLinge + PC)
 summary(lm2sls_1)
 logIncfit<- fitted(lm2sls_1)         
 
 
-lm2sls_2 <- lm(Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo +  LaveLinge)
+lm2sls_2 <- lm(Lconso ~ logIncfit + HousMembers + NumbRooms + FloorSpace
+               + Heating + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo +  LaveLinge)
 summary(lm2sls_2)
+sink()
+# IV
+
+
+modelIV <- ivreg(Lconso ~ logInc +  HousMembers + FloorSpace + Heating
+                 + NumbRooms + Age + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + LaveLinge
+                 | HousMembers + NumbRooms + FloorSpace + Heating + Age 
+                 + Loc2 + Loc3 + Loc4 + Loc5 +Loc6 + Frigo + LaveLinge + Urban + Statut + PC)
+
+summary(modelIV)
 
 
 
@@ -127,7 +135,7 @@ pvalue2
 
 # Goldfeld-Quant
 gqtest(modelLog1)
-gqtest(modelLog2)
+gqtest(modellog2)
 gqtest(lm2sls_2)
 
 
